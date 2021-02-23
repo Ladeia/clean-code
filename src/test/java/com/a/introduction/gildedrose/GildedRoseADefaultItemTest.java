@@ -5,40 +5,43 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class GildedRoseADefaultItemTest {
-	/**
-	 * Method to test the variation in quality of the item for the non expired
-	 * Item.
-	 * 
-	 * The quality should decrease by 1 when the item is not expired
-	 * and sell in should decrease by 1.
-	 * 
-	 */
+
+	private final int UNEXPIRED_SELLING = 15;
+	private final int EXPIRED_SELLING = -1;
+	private final int DEFAULT_QUALITY = 3;
+	private final String DEFAULT_ITEM = "DEFAULT_ITEM";
+
 	@Test
-	public void testUpdateQualityDefault1() {
-		Item item = new Item("DEFAULT_ITEM", 15, 3);
-		Item[] items = new Item[] { item };
-		GildedRose app = new GildedRose(items);
+	public void unexpiredItemQualityDecreaseBy1() {
+		GildedRose app = createGiledRoseWithOneItem(DEFAULT_ITEM, UNEXPIRED_SELLING, DEFAULT_QUALITY);
+
 		app.updateQuality();
-		assertEquals("DEFAULT_ITEM", app.items[0].name);
-		assertEquals(14, app.items[0].sellIn);
-		assertEquals(2, app.items[0].quality);
+
+		Item expected = new Item(DEFAULT_ITEM, UNEXPIRED_SELLING -1, DEFAULT_QUALITY-1);
+
+		assertItem(expected, app.items[0]);
 	}
 
-	/**
-	 * Method to test the variation in quality of the item for the non expired
-	 * Item.
-	 * 
-	 * The quality should decrease by 2 when the item is expired(Sell in  < 0) and sell in should decrease by 1.
-	 * 
-	 */
 	@Test
-	public void testUpdateQualityForExpiredItem() {
-		Item item = new Item("DEFAULT_ITEM", -1, 3);
-		Item[] items = new Item[] { item };
-		GildedRose app = new GildedRose(items);
+	public void expiredItemQualityDecreaseBy2() {
+		GildedRose app = createGiledRoseWithOneItem(DEFAULT_ITEM, EXPIRED_SELLING, DEFAULT_QUALITY);
+
 		app.updateQuality();
-		assertEquals("DEFAULT_ITEM", app.items[0].name);
-		assertEquals(-2, app.items[0].sellIn);
-		assertEquals(1, app.items[0].quality);
+
+		Item expected = new Item(DEFAULT_ITEM, EXPIRED_SELLING -1, DEFAULT_QUALITY - 2);
+
+		assertItem(expected, app.items[0]);
+	}
+
+	private void assertItem(Item expected, Item actual) {
+		assertEquals(expected.name, actual.name);
+		assertEquals(expected.sellIn, actual.sellIn);
+		assertEquals(expected.quality, actual.quality);
+	}
+
+	private GildedRose createGiledRoseWithOneItem(String itemType, int expiredselling, int defaultQuality) {
+		Item item = new Item(itemType, expiredselling, defaultQuality);
+		Item[] items = new Item[]{item};
+		return new GildedRose(items);
 	}
 }
