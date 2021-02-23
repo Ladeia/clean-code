@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 
 public class GildedRoseADefaultItemTest {
 
-	private final int UNEXPIRED_SELLING = 15;
-	private final int EXPIRED_SELLING = -1;
-	private final int DEFAULT_QUALITY = 3;
-	private final String DEFAULT_ITEM = "DEFAULT_ITEM";
+	private static final int UNEXPIRED_SELLING = 15;
+	private static final int EXPIRED_SELLING = -1;
+	private static final int DEFAULT_QUALITY = 3;
+	private static final String DEFAULT_ITEM = "DEFAULT_ITEM";
 
 	@Test
 	public void unexpiredItemQualityDecreaseBy1() {
